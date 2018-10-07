@@ -23,3 +23,42 @@ header {
     line-height: 44px;
     text-align: center;
 }
+
+section {
+    width: 100%;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    width: 100%;
+    height: auto;
+}
+
+.content ul li {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #ccc;
+}
+
+.word {
+    width: 40px;
+    height: 80%;
+    position: absolute;
+    background: palegoldenrod;
+    display: flex;
+    flex-direction: column;
+    top: 10px;
+    right: 2%;
+}
+
+.word li {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.active {
+    background: red;
+}

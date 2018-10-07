@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
+    <script src='./js/better-scroll.js'></script>
+    <script src='./js/jquery-1.9.1.js'></script>
 </head>
 
 <body>
@@ -20,13 +22,67 @@
         <section>
             <!--汽车列表-->
             <div class="content">
-
             </div>
             <!--首字母-->
             <ol class='word'>
             </ol>
         </section>
     </div>
+
+    <script>
+        //渲染
+        $.ajax({
+            url: "json/data.json",
+            success: function(data) {
+                render(data);
+            }
+        });
+        //找到首字母去重
+        function render(obj) {
+            var arr = [];
+            var newArr = [];
+            obj.data.forEach(function(item) {
+                arr.push(item.Spelling.slice(0, 1));
+            });
+
+            arr.forEach(function(i) {
+                if (newArr.indexOf(i) == -1) {
+                    newArr.push(i);
+                };
+            });
+            //侧栏 首字母添加
+            var list = ``;
+            newArr.forEach(function(a) {
+                list += `<li>${a}</li>`;
+            });
+            $('.word').html(list);
+            //内容部分 首字母添加
+            var str = ``;
+            newArr.forEach(function(c) {
+                str += `
+                       <h3>${c}</h3>
+                       <ul>`
+                obj.data.forEach(function(item) {
+                    if (c == item.Spelling.slice(0, 1)) {
+                        str += `<li>${item.Name}</li>`
+                    }
+                });
+                str += `</ul>`;
+            });
+            $('.content').html(str);
+        };
+        //实例化better scroll
+        var BScroll = new BScroll('section', {
+            click: true
+        });
+        //点击首字母跳转
+        $('.word').on('click', 'li', function() {
+            var ind = $(this).index();
+            $(this).addClass('active').siblings().removeClass('active');
+            var h3 = $('.content').find('h3').eq(ind);
+            BScroll.scrollToElement(h3[0], 500);
+        });
+    </script>
 </body>
 
 </html>
